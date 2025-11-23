@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://aka.ms/microsoft-foundry-vsc/agent/1.0.0
+# version of the agent schema
+version: 1.0.0
+name: PinkAgent
+
+# Give a description of your agent. This does not affect the agent's behavior, but it can help you remember what the agent is for.
+# Please use instructions to define the agent's behavior. 
+description: Envia e-mails de feliz dia das mulheres para as funcionarias de uma empresa as
+  parabenizando pelo dias das mulheres.
+
+# unique identifier for the agent, should be set by the system when deploy complete
+# keep it empty when creating a new agent and do not change it when updating the agent
+id: asst_4X9LH4rkVlG4Hi7iQSB8gITo
+
+# metadata for the agent, uncommented those lines if you want to add metadata
+# metadata:
+#   authors:
+#     - author1
+#     - author2
+#   tags:
+#     - tag1
+#     - tag2
+
+# model id of the agent, can not be empty
+# Press SPACE to view a list of models currently connected to your project.
+model:
+  id: gpt-4.1-mini
+  options:
+    temperature: 1
+    top_p: 1
+# Give your agent clear directions on what to do and how to do it.
+# Include specific tasks, their order, and any special instructions like tone or engagement style.
+instructions: Você é um agente de envios e-mails de feliz dias das mulheres para as
+  funcionárias de uma empresa. você envia em nome do RH da empresa Luz do Dia. O
+  email deve ter um formato bonito, com quebra de linhas harmonicas. Você deve
+  exaltar a como a presença da funcionaria é importante na empresa. Você não
+  responde perguntas e envia apenas este tipo de e-mail. Você utilizará o
+  ficheiro adicionado para obter os dados e emails das funcionárias. Você deve
+  enviar os emails apenas no dia 8 de março de cada ano.
+
+# Add external tools to enhance your agent's abilities.
+tools:
+  #   # Enhance model output with grounding with Bing Search
+  #   - type: bing_grounding
+  #     id: bing_search
+  #     options:
+  #       tool_connections:
+  #         # The connection id of the BingSearch connection
+  #         # Press SPACE to view a list of Bing Search resources currently connected to your project.
+  #         - /subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/RESOURCE_GROUP_NAME/providers/Microsoft.MachineLearningServices/workspaces/PROJECT_NAME/connections/BING_SEARCH_CONNECTION_NAME
+  #
+  #   # Read and interpret information from datasets, generate code, and create graphs and charts.
+  #   - type: code_interpreter
+  #     id: code interpreter
+  #     options: 
+  #       file_ids:
+  #         # List of file ids to be used by the code interpreter
+  #         # Press SPACE to view a list of data sources currently connected to your project.
+  #         - assistant-00000000000000000000000
+  #   
+  # Add your own files to augment the agent with specialized knowledge.
+  # Files will be added to a vector store that the search index can reference for quick information retrieval.
+  # Encrypted or sensitivity-labeled files are not supported. 
+  - type: file_search
+    options:
+      vector_store_ids:
+        # List of vector store ids to be used by the agent
+        # Press SPACE to view a list of vector store name currently connected to your project.
+        - vs_XqKYjxfKkXvhGw4UVNcIwJtG
+  #
+  # Trigger APIs with inputs and outputs schema defined using OpenAPI 3.0 spec.
+  # You can find more documentation on https://go.microsoft.com/fwlink/?linkid=2309751
+  # And here you can find a sample OpenAPI spec: https://aka.ms/ai-foundry-vsc/openapi-sample
+  - type: openapi
+    id: Envio_email
+    description: Ferramenta para envio de email de para parabenizar as funcionarias
+      mulheres no dia 8 de março de cada ano.
+    options:
+      specification: '{"openapi":"3.0.3","info":{"version":"1.0.0.0","title":"a","description":"a"},"servers":[{"url":"https://prod-30.canadaeast.logic.azure.com/workflows/fc9460569fb44f37b71bf9944c30a736/triggers/When_a_HTTP_request_is_received/paths"}],"security":[{"sig":[]}],"paths":{"/invoke":{"post":{"description":"a","operationId":"When_a_HTTP_request_is_received-invoke","parameters":[{"name":"api-version","in":"query","description":"`2016-10-01`
+        is the most common generally available
+        version","required":true,"schema":{"type":"string","default":"2016-10-01"},"example":"2016-10-01"},{"name":"sv","in":"query","description":"The
+        version
+        number","required":true,"schema":{"type":"string","default":"1.0"},"example":"1.0"},{"name":"sp","in":"query","description":"The
+        permissions","required":true,"schema":{"type":"string","default":"%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun"},"example":"%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun"}],"responses":{"200":{"description":"The
+        Logic App
+        Response.","content":{"application/json":{"schema":{"type":"object"}}}},"default":{"description":"The
+        Logic App
+        Response.","content":{"application/json":{"schema":{"type":"object"}}}}},"deprecated":false,"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"email_to":{"type":"string"},"email_subject":{"type":"string"},"email_body":{"type":"string"}}}}},"required":true}}}},"components":{"securitySchemes":{"sig":{"type":"apiKey","description":"The
+        SHA 256 hash of the entire request URI with an internal
+        key.","name":"sig","in":"query"}}}}'
+      auth:
+        type: connection
+        security_scheme:
+          connection_id: /subscriptions/30537d90-91b8-4242-99ee-c3ddfd935934/resourceGroups/rg-taina-sena/providers/Microsoft.CognitiveServices/accounts/aif-taina-challenger/projects/proj-default/connections/LogicApps_Tool_Connection_a_9878
+  # Use MCP tools to interact with external services.
+  #   - type: mcp
+  #     id: mcp_server
+  #     options:
+  #       server_url: "https://mcp.example.com/api"
+  #       allowed_tools:
+  #         - tool1
+  #         - tool2
